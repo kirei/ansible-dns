@@ -1,0 +1,7 @@
+---
+
+- name: restart bind
+  service: name=bind state=restarted
+
+- name: reload firewalld
+  shell: firewall-cmd --reload

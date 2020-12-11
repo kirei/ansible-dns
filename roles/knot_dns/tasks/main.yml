@@ -1,0 +1,36 @@
+---
+
+- name: install Knot DNS
+  yum: name=knot state=installed
+
+- name: configure Knot DNS
+  template:
+    src: knot.conf
+    dest: /etc/knot/knot.conf
+    group: knot
+    mode: 440
+  notify: restart knot
+
+- file:
+    dest: /etc/knot/conf.d
+    mode: 0755
+    owner: root
+    group: knot
+    state: directory
+
+- file:
+    dest: /var/lib/knot/zones
+    mode: 0775
+    owner: root
+    group: knot
+    state: directory
+
+- firewalld:
+    service: dns
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+
+- name: start Knot DNS
+  service: name=knot state=started enabled=yes
+  when: knot.enabled

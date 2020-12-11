@@ -1,0 +1,7 @@
+---
+
+- name: restart nsd
+  service: name=nsd state=restarted
+
+- name: reload firewalld
+  shell: firewall-cmd --reload

@@ -1,0 +1,7 @@
+---
+
+- name: restart knot
+  service: name=knot state=restarted
+
+- name: reload firewalld
+  shell: firewall-cmd --reload

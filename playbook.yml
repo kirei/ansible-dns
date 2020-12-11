@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  become: True
+  roles:
+    - bind
+    - knot_dns
+    - nsd

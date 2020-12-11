@@ -1,0 +1,22 @@
+---
+
+- name: install BIND
+  yum: name=bind state=installed
+
+- name: configure BIND
+  template:
+    src: named.conf
+    dest: /etc/named.conf
+    group: named
+    mode: 444
+  notify: restart bind
+
+- firewalld:
+    service: dns
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+
+- name: start BIND
+  service: name=bind state=started enabled=yes
+  when: bind.enabled

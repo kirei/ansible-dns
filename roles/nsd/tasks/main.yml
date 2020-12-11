@@ -1,0 +1,14 @@
+---
+
+- name: install NSD
+  yum: name=nsd state=installed
+
+- firewalld:
+    service: dns
+    permanent: true
+    state: enabled
+  notify: reload firewalld
+
+- name: start NSD
+  service: name=nsd state=started enabled=yes
+  when: nsd.enabled
